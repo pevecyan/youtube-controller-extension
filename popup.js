@@ -4,14 +4,7 @@
     var notice = document.getElementById('notice'),
       body = document.querySelector('body');
 
-    if (tabs.length === 1) {
-
-      var tabId = tabs[0].id;
-      Util.toggleVideo(tabId, function(paused) {
-        window.close();
-      });
-
-    } else if (tabs.length > 0) {
+    if (tabs.length > 0) {
 
       body.removeChild(notice);
 
@@ -26,6 +19,11 @@
           videoListItemText = document.createElement("span"),
           videoControl = document.createElement("a"),
           videoControlText = "",
+
+          //restart
+          videoRestart = document.createElement("a"),
+          tabClose = document.createElement("a"),
+
           tabId = tab.id,
           tabTitle = tab.title;
 
@@ -41,10 +39,26 @@
           videoControl.classList.add("fa");
           videoControl.classList.add(videoControlClass);
           videoControl.addEventListener("click", videoControlClicked);
+          
+          videoRestart.classList.add("fa");
+          videoRestart.classList.add("fa-refresh");
+          videoRestart.addEventListener("click", videoRestartClicked);
+
+          tabClose.classList.add("fa");
+          tabClose.classList.add("fa-times");
+          tabClose.addEventListener("click", tabCloseClicked);
+
+
+
           videoListItemText.textContent = tabTitle;
           videoListItemText.addEventListener("click", videoItemClicked);
           videoListItem.appendChild(videoListItemText);
           videoListItem.appendChild(videoControl);
+
+          videoListItem.appendChild(videoRestart);
+
+          videoListItem.appendChild(tabClose);
+
           videoListItem.dataset.tabId = tabId;
           videoList.appendChild(videoListItem);
 
@@ -81,9 +95,24 @@
 
     });
   }
+  function videoRestartClicked(){
+    event.stopPropagation();
+    var tabId = parseInt(this.parentNode.dataset.tabId);
+    Util.restartVideo(tabId, function(currentTime){
+
+    });
+  }
+  function tabCloseClicked(){
+    event.stopPropagation();
+    var tabId = parseInt(this.parentNode.dataset.tabId);
+    Util.closeTab(tabId, function(){
+      window.close();
+    });
+  }
 
   function videoItemClicked(event) {
     var tabId = parseInt(this.parentNode.dataset.tabId);
     Util.toggleTab(tabId, true);
   }
+
 })(Util);

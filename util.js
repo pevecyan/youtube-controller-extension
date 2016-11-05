@@ -25,6 +25,19 @@ var Util = (function(chrome) {
         selected: selected
       });
     },
+    closeTab: function(tabId, callback){
+      chrome.tabs.remove(tabId,callback);
+    },
+    restartVideo:function(tabId, callback){
+      chrome.tabs.executeScript(tabId, {
+        code: 'var video = document.getElementsByTagName("video")[0];' +
+          'video.currentTime = 0;'
+      }, function(result){
+        if(callback){
+          callback(result[0]);
+        }
+      })
+    },
     videoPaused: function(tabId, callback) {
       chrome.tabs.executeScript(tabId, {
         code: 'var video = document.getElementsByTagName("video")[0];' +

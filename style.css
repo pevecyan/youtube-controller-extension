@@ -21,7 +21,7 @@ li{
   padding: 10px;
   margin: 0;
   display: inline-block;
-  width: 280px;
+  width: 380px;
   border-bottom: 1px solid #eee;
   float: left;
   color: #666;
@@ -66,4 +66,8 @@ li:hover a{
   color: #666;
   font-size: 13px;
   padding: 5px;
+}
+
+.fa{
+  margin-left:2px;
 }
